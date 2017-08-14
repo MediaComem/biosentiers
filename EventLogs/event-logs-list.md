@@ -7,10 +7,12 @@
 - [Questions](#questions)
 - [Logs objects](#logs-objects)
 - [Event types](#event-types)
-  - [Localization events](#localization-events)
-  - [Lifecycle events](#lifecycle-events)
+  - [Location events](#location-events)
+  - [App events](#app-events)
+  - [AR events](#ar-events)
   - [Network events](#network-events)
   - [Navigation events](#navigation-events)
+  - [Excursion events](#excursion-events)
   - [Action events](#action-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -19,7 +21,6 @@
 
 * Est-ce que les événements doivent être loggés dès que l'action est entreprise ou seulement lorsque l'action est validée (genre les actions qui ont un impact sur la BD) ?
 * Mettre les événements du cycle de vie d'une excursion dans action ou dans lifecycle ? (Je penche pour lifecycle)
-* Lorsque la vue AR se lance, l'app est considérée comme "en pause"...
 
 ## Logs objects
 
@@ -37,30 +38,34 @@ Their structure is as follow:
 
 ## Event types
 
-### Localization events
+### Location events
 
-#### `localization`
+Events related to the user's location.
 
-> Fired each time the user's position is localized by their device, and that this new position is at least 10 meters farer from the previous localized position.
+#### `location`
+
+> Fired each time the user's position is located by their device, and that the new position is at least 10 meters farer from the previous located position.
 
 **Properties object:**
 
 ```json
 {
-  "excursionId": "The serverId of the excursion in the context of which the position has been localized",
+  "excursionId": "The serverId of the excursion in the context of which the position has been located",
   "position": {
     "latitude": "The new position's latitude",
     "longitude": "The new positions's longitude",
     "altitude": "The new positions' altitude, if known",
-    "accuracy": "The localization's accuracy"
+    "accuracy": "The location's accuracy"
   },
-  "context": "The context in which the position has been localized. This can be either on an excursion's card page (excursionCard) or when in the AR view (ar)."
+  "context": "The context in which the position has been located. This can be either on an excursion's card page (excursionCard) or when in the AR view (ar)."
 }
 ```
 
-### Lifecycle events
+### App events
 
-#### `lifecycle.app.started`
+Events related to the native app lifecycle.
+
+#### `app.started`
 
 > Fired each time the user starts the BioSentiers app.
 
@@ -70,7 +75,7 @@ Their structure is as follow:
 {}
 ```
 
-#### `lifecycle.app.paused`
+#### `app.paused`
 
 > Fired each time the user put the BioSentiers app in the background.
 
@@ -80,7 +85,7 @@ Their structure is as follow:
 {}
 ```
 
-#### `lifecycle.app.resumed`
+#### `app.resumed`
 
 > Fired each time the user resumes the BioSentiers app from the background.
 
@@ -90,7 +95,11 @@ Their structure is as follow:
 {}
 ```
 
-#### `lifecycle.ar.launched`
+### AR events
+
+Events related to the lifecycle of the AR view.
+
+#### `ar.launched`
 
 > Fired each time the AR view is launched.
 
@@ -100,7 +109,7 @@ Their structure is as follow:
 {}
 ```
 
-#### `lifecycle.ar.quitted`
+#### `ar.quitted`
 
 > Fired each time the AR view is quitted.
 
@@ -217,6 +226,193 @@ Their structure is as follow:
 }
 ```
 
+### Excursion events
+
+Events related to the different states of an excursion. These events can be directly triggered by a user's action, or a indirect consequence of another action.
+
+
+#### `excursion.contextMenu`
+
+> Fired each time the user opens the context menu of an excursion card page.
+
+**Properties object:**
+
+```json
+{}
+```
+
+#### `excursion.created`
+
+> Fired each time an excursion is created on the device's database.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the created excursion",
+    "addedAt": "The date at which the excursion has been created in the database"
+  }
+}
+```
+
+#### `excursion.archived`
+
+> Fired each time an excursion is archived by the user.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the archived excursion",
+    "addedAt": "The date at which the excursion has been created in the database"
+  }
+}
+```
+
+#### `excursion.restored`
+
+> Fired each time an excursion is restored by the user.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the restored excursion",
+    "addedAt": "The date at which the excursion has been created in the database",
+    "archivedAt": "The date at which the excursion has been archived by the user"
+  }
+}
+```
+
+#### `excursion.deleted`
+
+> Fired each time an excursion is deleted by the user.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the deleted excursion",
+    "addedAt": "The date at which the excursion has been created in the database",
+    "archivedAt": "The date at which the excursion has been archived by the user"
+  }
+}
+```
+
+#### `excursion.flagedAsNew`
+
+> Fired each time the user manually flags an excursion as 'new'.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the excursion",
+    "addedAt": "The date at which the excursion has been created in the database"
+  }
+}
+```
+
+#### `excursion.unflagedAsNew`
+
+> Fired each time the user manually removes the flag 'new' on an excursion.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the excursion",
+    "addedAt": "The date at which the excursion has been created in the database"
+  }
+}
+```
+
+#### `excursion.reinitialized`
+
+> Fired each time an excursion is reinitialized by the user.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the reinitialized excursion",
+    "startedAt": "The date at which the excursion has been first started by the user",
+    "finishedAt": "The date at which the excursion has been finished by the user"
+  }
+}
+```
+
+#### `excursion.started`
+
+> Fired each time a pending excursion is started for the first time.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the started excursion",
+    "addedAt": "The date at which the excursion has been created in the database"
+  }
+}
+```
+
+#### `excursion.paused`
+
+> Fired each time an ongoing excursion is paused by the user (i.e. the user quit the AR view without having finished the excursion).
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the paused excursion",
+    "addedAt": "The date at which the excursion has been created in the database",
+    "startedAt": "The date at which the excursion has been first started by the user",
+  }
+}
+```
+
+#### `excursion.resumed`
+
+> Fired each time an ongoing excursion is resumed by the user.
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the resumed excursion",
+    "addedAt": "The date at which the excursion has been created in the database",
+    "startedAt": "The date at which the excursion has been first started by the user",
+    "pausedAt": "The date at which the excursion has been paused prior to the resuming"
+  }
+}
+```
+
+#### `excursion.finished`
+
+> Fired each time an ongoing excursion is finished by the user (i.e. they has reached the end point).
+
+**Properties object:**
+
+```json
+{
+  "excursion": {
+    "id": "The server id of the finished excursion",
+    "addedAt": "The date at which the excursion has been created in the database",
+    "startedAt": "The date at which the excursion has been first started by the user",
+  }
+}
+```
+
 ### Action events
 
 #### `action.scanQr.new`
@@ -301,188 +497,6 @@ Their structure is as follow:
 
 ```json
 {}
-```
-
-#### `action.excursion.contextMenu`
-
-> Fired each time the user opens the context menu of an excursion card page.
-
-**Properties object:**
-
-```json
-{}
-```
-
-#### `action.excursion.created`
-
-> Fired each time an excursion is created on the device's database.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the created excursion",
-    "addedAt": "The date at which the excursion has been created in the database"
-  }
-}
-```
-
-#### `action.excursion.archived`
-
-> Fired each time an excursion is archived by the user.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the archived excursion",
-    "addedAt": "The date at which the excursion has been created in the database"
-  }
-}
-```
-
-#### `action.excursion.restored`
-
-> Fired each time an excursion is restored by the user.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the restored excursion",
-    "addedAt": "The date at which the excursion has been created in the database",
-    "archivedAt": "The date at which the excursion has been archived by the user"
-  }
-}
-```
-
-#### `action.excursion.deleted`
-
-> Fired each time an excursion is deleted by the user.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the deleted excursion",
-    "addedAt": "The date at which the excursion has been created in the database",
-    "archivedAt": "The date at which the excursion has been archived by the user"
-  }
-}
-```
-
-#### `action.excursion.flagAsNew`
-
-> Fired each time the user manually flags an excursion as 'new'.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the excursion",
-    "addedAt": "The date at which the excursion has been created in the database"
-  }
-}
-```
-
-#### `action.excursion.unflagAsNew`
-
-> Fired each time the user manually removes the flag 'new' on an excursion.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the excursion",
-    "addedAt": "The date at which the excursion has been created in the database"
-  }
-}
-```
-
-#### `action.excursion.reinitialized`
-
-> Fired each time an excursion is reinitialized by the user.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the reinitialized excursion",
-    "startedAt": "The date at which the excursion has been first started by the user",
-    "finishedAt": "The date at which the excursion has been finished by the user"
-  }
-}
-```
-
-#### `action.excursion.started`
-
-> Fired each time a pending excursion is started for the first time.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the started excursion",
-    "addedAt": "The date at which the excursion has been created in the database"
-  }
-}
-```
-
-#### `action.excursion.paused`
-
-> Fired each time an ongoing excursion is paused by the user (i.e. the user quit the AR view without having finished the excursion).
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the paused excursion",
-    "addedAt": "The date at which the excursion has been created in the database",
-    "startedAt": "The date at which the excursion has been first started by the user",
-  }
-}
-```
-
-#### `action.excursion.resumed`
-
-> Fired each time an ongoing excursion is resumed by the user.
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the resumed excursion",
-    "addedAt": "The date at which the excursion has been created in the database",
-    "startedAt": "The date at which the excursion has been first started by the user",
-    "pausedAt": "The date at which the excursion has been paused prior to the resuming"
-  }
-}
-```
-
-#### `action.excursion.finished`
-
-> Fired each time an ongoing excursion is finished by the user (i.e. they has reached the end point).
-
-**Properties object:**
-
-```json
-{
-  "excursion": {
-    "id": "The server id of the finished excursion",
-    "addedAt": "The date at which the excursion has been created in the database",
-    "startedAt": "The date at which the excursion has been first started by the user",
-  }
-}
 ```
 
 #### `action.positionWatcher.activated`
