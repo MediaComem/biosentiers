@@ -1,20 +1,19 @@
+# EventLogs list
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+## Table of content
 
-- [Logs events structure](#logs-events-structure)
-  - [Questions](#questions)
-  - [Logs objects](#logs-objects)
-  - [Event types](#event-types)
-    - [Localization events](#localization-events)
-    - [Lifecycle events](#lifecycle-events)
-    - [Network events](#network-events)
-    - [Navigation events](#navigation-events)
-    - [Action events](#action-events)
+- [Questions](#questions)
+- [Logs objects](#logs-objects)
+- [Event types](#event-types)
+  - [Localization events](#localization-events)
+  - [Lifecycle events](#lifecycle-events)
+  - [Network events](#network-events)
+  - [Navigation events](#navigation-events)
+  - [Action events](#action-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Logs events structure
 
 ## Questions
 
