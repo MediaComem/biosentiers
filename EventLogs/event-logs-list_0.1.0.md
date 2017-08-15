@@ -623,7 +623,7 @@ Events related to the user's actions inside the app.
 {
   "excursionId": "The server id of the current excursion",
   "poiId": "The id of the clicked POI",
-  "specieId": "The id of the specie represented by the POI"
+  "speciesId": "The id of the species represented by the POI"
 }
 ```
 
@@ -637,7 +637,7 @@ Events related to the user's actions inside the app.
 {
   "excursionId": "The server id of the current excursion",
   "poiId": "The id of the clicked POI",
-  "specieId": "The id of the specie represented by the POI"
+  "speciesId": "The id of the species represented by the POI"
 }
 ```
 
@@ -662,7 +662,7 @@ Events related to the user's actions inside the app.
 ```json
 {
   "excursionId": "The server id of the current excursion",
-  "result": "The result of the user's interaction with the prompt. Can be either 'validated' or 'canceled'"
+  "validated": "The result of the user's interaction with the automatic prompt. 'true' means that the user validated the automatic prompt, 'false' means he cancelled it and will manually finish the excursion at a later time."
 }
 ```
 
