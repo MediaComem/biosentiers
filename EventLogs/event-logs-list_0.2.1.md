@@ -230,7 +230,7 @@ Events related to the user navigation inside the app.
     "id": "The server id of the excursion of which the list of seen pois is being displayed",
     "status": "The status of the excursion of which the list of seen pois is being displayed" 
   },
-  "specieId": "The id of the specie whose information are displayed on the seen poi card."s
+  "speciesId": "The id of the species whose information are displayed on the seen poi card."s
 }
 ```
 
@@ -636,7 +636,7 @@ Events related to the user's actions inside the app.
 {
   "excursionId": "The server id of the current excursion",
   "poiId": "The id of the clicked POI",
-  "specieId": "The id of the specie represented by the POI"
+  "speciesId": "The id of the species represented by the POI"
 }
 ```
 
@@ -650,7 +650,7 @@ Events related to the user's actions inside the app.
 {
   "excursionId": "The server id of the current excursion",
   "poiId": "The id of the clicked POI",
-  "specieId": "The id of the specie represented by the POI"
+  "speciesId": "The id of the species represented by the POI"
 }
 ```
 
